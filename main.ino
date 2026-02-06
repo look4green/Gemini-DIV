@@ -68,38 +68,23 @@ void calibrateTouchScreen() {
 /*
  * * Loading
  * */
-void loading(int frameDelay, uint16_t color, int16_t x, int16_t y, int repeats, bool center) {
-    int16_t bitmapWidth = 100;
-    int16_t bitmapHeight = 120;
-    int16_t logoX = x;
-    int16_t logoY = y;
+void loading(int frameDelay, uint16_t color, int repeats, bool center) {
+    int16_t bW = 100; int16_t bH = 120;
+    int16_t lX = (tft.width() - bW) / 2;
+    int16_t lY = (tft.height() - bH) / 2;
 
-    if (center) {
-        int16_t screenWidth = tft.width();
-        int16_t screenHeight = tft.height();
-        logoX = (screenWidth - bitmapWidth) / 2;
-        logoY = (screenHeight - bitmapHeight) / 2;
-    }
-
-    // Array of bitmaps
     const unsigned char* bitmaps[] = {
-        bitmap_icon_skull_loading_1,
-        bitmap_icon_skull_loading_2,
-        bitmap_icon_skull_loading_3,
-        bitmap_icon_skull_loading_4,
-        bitmap_icon_skull_loading_5,
-        bitmap_icon_skull_loading_6,
-        bitmap_icon_skull_loading_7,
-        bitmap_icon_skull_loading_8,
-        bitmap_icon_skull_loading_9,
-        bitmap_icon_skull_loading_10
+        bitmap_icon_skull_loading_1, bitmap_icon_skull_loading_2,
+        bitmap_icon_skull_loading_3, bitmap_icon_skull_loading_4,
+        bitmap_icon_skull_loading_5, bitmap_icon_skull_loading_6,
+        bitmap_icon_skull_loading_7, bitmap_icon_skull_loading_8,
+        bitmap_icon_skull_loading_9, bitmap_icon_skull_loading_10
     };
-    const int numFrames = 10;
 
     for (int r = 0; r < repeats; r++) {
-        for (int i = 0; i < numFrames; i++) {
-            tft.fillRect(logoX, logoY, bitmapWidth, bitmapHeight, TFT_BLACK);
-            tft.drawBitmap(logoX, logoY, bitmaps[i], bitmapWidth, bitmapHeight, color);
+        for (int i = 0; i < 10; i++) {
+            tft.fillRect(lX, lY, bW, bH, BACKGROUND_GRAY);
+            tft.drawBitmap(lX, lY, bitmaps[i], bW, bH, color);
             delay(frameDelay);
         }
     }
@@ -629,7 +614,7 @@ void setup() {
     // The initial screen fill is now set to black.
     tft.fillScreen(TFT_BLACK);
     // Use the new loading function here. The parameters are (frameDelay, color, x, y, repeats, center)
-    loading(20, ORANGE, 0, 0, 3, true);
+    loading(80, ORANGE, 3, true);
     tft.fillScreen(BACKGROUND_GRAY);
     displayLogo(WHITE, 2000);
     tft.setTextSize(1); // FIX: Set text size back to normal after the logo
